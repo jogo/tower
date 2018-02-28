@@ -122,7 +122,7 @@ class Command(BaseCommand):
                 os.makedirs(outputdir)
 
         if domains == "all":
-            domains = settings.DOMAIN_METHODS.keys()
+            domains = list(settings.DOMAIN_METHODS.keys())
         else:
             domains = [domains]
 

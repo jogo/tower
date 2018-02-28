@@ -1,4 +1,7 @@
-from cStringIO import StringIO
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from io import StringIO
 
 import django
 from django.utils import translation
@@ -127,16 +130,16 @@ def test_ungettext_not_found():
 
 @with_setup(setup, teardown)
 def test_ugettext_lazy():
-    eq_(unicode(_lazy_strings['nocontext']), 'you ran a test!')
-    eq_(unicode(_lazy_strings['context']), 'What time is it? (context=1)')
+    eq_(str(_lazy_strings['nocontext']), 'you ran a test!')
+    eq_(str(_lazy_strings['context']), 'What time is it? (context=1)')
 
 
 @with_setup(setup, teardown)
 def test_ungettext_lazy():
-    eq_(unicode(n_lazy_strings['s_nocontext']), 'you found a light!')
-    eq_(unicode(n_lazy_strings['p_nocontext']), 'you found a pile of lights!')
-    eq_(unicode(n_lazy_strings['s_context']), '%d poodle (context=1)')
-    eq_(unicode(n_lazy_strings['p_context']), '%d poodles (context=1)')
+    eq_(str(n_lazy_strings['s_nocontext']), 'you found a light!')
+    eq_(str(n_lazy_strings['p_nocontext']), 'you found a pile of lights!')
+    eq_(str(n_lazy_strings['s_context']), '%d poodle (context=1)')
+    eq_(str(n_lazy_strings['p_context']), '%d poodles (context=1)')
 
 
 def test_add_context():
@@ -279,7 +282,7 @@ def test_extract_tower_python():
                                    method=method)
 
     # god help you if these are ever unequal
-    eq_(TEST_PO_OUTPUT, unicode(create_pofile_from_babel(output)))
+    eq_(TEST_PO_OUTPUT, str(create_pofile_from_babel(output)))
 
 
 def test_extract_tower_template():
@@ -289,7 +292,7 @@ def test_extract_tower_template():
                                    method=method)
 
     # god help you if these are ever unequal
-    eq_(TEST_TEMPLATE_OUTPUT, unicode(create_pofile_from_babel(output)))
+    eq_(TEST_TEMPLATE_OUTPUT, str(create_pofile_from_babel(output)))
 
 
 def test_extract_tower_python_backwards_compatible():
@@ -299,7 +302,7 @@ def test_extract_tower_python_backwards_compatible():
                                    method=method)
 
     # god help you if these are ever unequal
-    eq_(TEST_PO_OUTPUT, unicode(create_pofile_from_babel(output)))
+    eq_(TEST_PO_OUTPUT, str(create_pofile_from_babel(output)))
 
 
 def test_extract_tower_template_backwards_compatible():
@@ -309,7 +312,7 @@ def test_extract_tower_template_backwards_compatible():
                                    method=method)
 
     # god help you if these are ever unequal
-    eq_(TEST_TEMPLATE_OUTPUT, unicode(create_pofile_from_babel(output)))
+    eq_(TEST_TEMPLATE_OUTPUT, str(create_pofile_from_babel(output)))
 
 
 

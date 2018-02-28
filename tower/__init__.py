@@ -1,3 +1,5 @@
+from past.builtins import basestring
+from builtins import object
 import copy
 import gettext
 import re
@@ -52,8 +54,8 @@ def ungettext(singular, plural, number, context=None):
         return plural_stripped
     return ret
 
-ugettext_lazy = lazy(ugettext, unicode)
-ungettext_lazy = lazy(ungettext, unicode)
+ugettext_lazy = lazy(ugettext, str)
+ungettext_lazy = lazy(ungettext, str)
 
 
 def add_context(context, message):
