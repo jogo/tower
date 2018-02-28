@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import tempfile
 from optparse import make_option
@@ -129,11 +130,11 @@ class Command(BaseCommand):
 
         def callback(filename, method, options):
             if method != 'ignore':
-                print "  %s" % filename
+                print("  %s" % filename)
 
         for domain in domains:
 
-            print "Extracting all strings in domain %s..." % (domain)
+            print("Extracting all strings in domain %s..." % (domain))
 
             methods = settings.DOMAIN_METHODS[domain]
             extracted = extract_from_dir(root,
@@ -179,4 +180,4 @@ class Command(BaseCommand):
             for i in [x for x in domains if x not in standalone_domains]:
                 os.remove(os.path.join(outputdir, '%s.pot' % i))
 
-        print 'done'
+        print('done')
