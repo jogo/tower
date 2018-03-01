@@ -1,4 +1,6 @@
 from __future__ import print_function
+from io import StringIO
+
 import os
 import tempfile
 from optparse import make_option
@@ -73,9 +75,9 @@ def create_pofile_from_babel(extracted):
         if settings.TOWER_ADD_HEADERS:
             catalog = po.pofile()
         else:
-            catalog = po.pofile(inputfile="")
+            catalog = po.pofile(inputfile=StringIO(u""))
     except AttributeError:
-        catalog = po.pofile(inputfile="")
+        catalog = po.pofile(inputfile=StringIO(u""))
 
     for extracted_unit in extracted:
         # Babel 1.3 has an additional value: context.

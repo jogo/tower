@@ -1,7 +1,7 @@
 from future import standard_library
 standard_library.install_aliases()
 from builtins import str
-from io import StringIO
+from io import StringIO, BytesIO
 
 import django
 from django.utils import translation
@@ -276,47 +276,59 @@ def test_template_gettext_functions():
 
 
 def test_extract_tower_python():
-    fileobj = StringIO(TEST_PO_INPUT)
+    fileobj = BytesIO(TEST_PO_INPUT)
     method = 'tower.extract_tower_python'
     output = fake_extract_from_dir(filename="filename", fileobj=fileobj,
                                    method=method)
 
     # god help you if these are ever unequal
-    eq_(TEST_PO_OUTPUT, str(create_pofile_from_babel(output)))
+    out = BytesIO()
+    create_pofile_from_babel(output).serialize(out)
+    out.seek(0)
+    eq_(TEST_PO_OUTPUT, out.read())
 
 
 def test_extract_tower_template():
-    fileobj = StringIO(TEST_TEMPLATE_INPUT)
+    fileobj = BytesIO(TEST_TEMPLATE_INPUT)
     method = 'tower.extract_tower_template'
     output = fake_extract_from_dir(filename="filename", fileobj=fileobj,
                                    method=method)
 
     # god help you if these are ever unequal
-    eq_(TEST_TEMPLATE_OUTPUT, str(create_pofile_from_babel(output)))
+    out = BytesIO()
+    create_pofile_from_babel(output).serialize(out)
+    out.seek(0)
+    eq_(TEST_TEMPLATE_OUTPUT, out.read())
 
 
 def test_extract_tower_python_backwards_compatible():
-    fileobj = StringIO(TEST_PO_INPUT)
+    fileobj = BytesIO(TEST_PO_INPUT)
     method = 'tower.management.commands.extract.extract_tower_python'
     output = fake_extract_from_dir(filename="filename", fileobj=fileobj,
                                    method=method)
 
     # god help you if these are ever unequal
-    eq_(TEST_PO_OUTPUT, str(create_pofile_from_babel(output)))
+    out = BytesIO()
+    create_pofile_from_babel(output).serialize(out)
+    out.seek(0)
+    eq_(TEST_PO_OUTPUT, out.read())
 
 
 def test_extract_tower_template_backwards_compatible():
-    fileobj = StringIO(TEST_TEMPLATE_INPUT)
+    fileobj = BytesIO(TEST_TEMPLATE_INPUT)
     method = 'tower.management.commands.extract.extract_tower_template'
     output = fake_extract_from_dir(filename="filename", fileobj=fileobj,
                                    method=method)
 
     # god help you if these are ever unequal
-    eq_(TEST_TEMPLATE_OUTPUT, str(create_pofile_from_babel(output)))
+    out = BytesIO()
+    create_pofile_from_babel(output).serialize(out)
+    out.seek(0)
+    eq_(TEST_TEMPLATE_OUTPUT, out.read())
 
 
 
-TEST_PO_INPUT = """
+TEST_PO_INPUT = b"""
 # Make sure multiple contexts stay separate
 _('fligtar')
 _('fligtar', 'atwork')
@@ -342,7 +354,7 @@ ngettext('fligtar', 'many fligtars', 5, 'aticecreamshop')
 _lazy('a lazy string')
 """
 
-TEST_PO_OUTPUT = """\
+TEST_PO_OUTPUT = b"""\
 #: filename:3
 msgid "fligtar"
 msgstr ""
@@ -385,7 +397,7 @@ msgid "a lazy string"
 msgstr ""
 """
 
-TEST_TEMPLATE_INPUT = """
+TEST_TEMPLATE_INPUT = b"""
   {{ _('sunshine') }}
   {{ _('sunshine', 'nothere') }}
   {{ _('sunshine', 'outside') }}
@@ -412,7 +424,7 @@ TEST_TEMPLATE_INPUT = """
   {% endtrans %}
 """
 
-TEST_TEMPLATE_OUTPUT = """\
+TEST_TEMPLATE_OUTPUT = b"""\
 #: filename:2
 msgid "sunshine"
 msgstr ""
