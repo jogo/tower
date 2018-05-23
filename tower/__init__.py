@@ -1,5 +1,6 @@
 from past.builtins import basestring
 from builtins import object
+from importlib import import_module
 import copy
 import gettext
 import re
@@ -7,7 +8,6 @@ import re
 import django
 from django.conf import settings
 from django.utils.functional import lazy
-from django.utils.importlib import import_module
 from django.utils.translation import (trans_real as django_trans,
                                       ugettext as django_ugettext,
                                       ungettext as django_nugettext)
