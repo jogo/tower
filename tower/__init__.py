@@ -1,13 +1,14 @@
 from past.builtins import basestring
 from builtins import object
+from importlib import import_module
 import copy
 import gettext
 import re
 
 import django
 from django.conf import settings
+from django.utils import six
 from django.utils.functional import lazy
-from django.utils.importlib import import_module
 from django.utils.translation import (trans_real as django_trans,
                                       ugettext as django_ugettext,
                                       ungettext as django_nugettext)
@@ -54,8 +55,9 @@ def ungettext(singular, plural, number, context=None):
         return plural_stripped
     return ret
 
-ugettext_lazy = lazy(ugettext, str)
-ungettext_lazy = lazy(ungettext, str)
+
+ugettext_lazy = lazy(ugettext, six.text_type)
+ungettext_lazy = lazy(ungettext, six.text_type)
 
 
 def add_context(context, message):
